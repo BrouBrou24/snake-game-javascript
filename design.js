@@ -45,12 +45,36 @@ Snake.prototype.unDraw = function(x, y) {
     drawSquare(this.x, this.y, EMPTY)
 }
 
+Snake.prototype.moveLeft = function() {
+    this.unDraw();
+    this.x -= 1;
+    this.draw();
+}
+
+Snake.prototype.moveRight = function() {
+    this.unDraw();
+    this.x += 1;
+    this.draw();
+}
+
+Snake.prototype.moveUp = function() {
+    this.unDraw();
+    this.y -= 1;
+    this.draw();
+}
+
+Snake.prototype.moveDown = function() {
+    this.unDraw();
+    this.y += 1;
+    this.draw();
+}
+
 document.addEventListener('keydown', function() {
     if (event.keyCode == 37) {
         snake.moveLeft();
     }
     else if (event.keyCode == 38) {
-        snake.rotate();
+        snake.moveUp();
     }
     else if (event.keyCode == 39) {
         snake.moveRight();
