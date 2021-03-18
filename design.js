@@ -41,5 +41,19 @@ Snake.prototype.draw = function(x, y) {
     drawSquare(this.x, this.y, this.color)
 }
 
+document.addEventListener('keydown', function() {
+    if (event.keyCode == 37) {
+        snake.moveLeft();
+    }
+    else if (event.keyCode == 38) {
+        snake.rotate();
+    }
+    else if (event.keyCode == 39) {
+        snake.moveRight();
+    }
+    else if (event.keyCode == 40) {
+        snake.moveDown();
+    }
+
 let s = new Snake();
 s.draw();
