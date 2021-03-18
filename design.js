@@ -69,6 +69,12 @@ Snake.prototype.moveDown = function() {
     this.draw();
 }
 
+function newFood() {
+    number1 = Math.floor(Math.random() * board.length)
+    number2 = Math.floor(Math.random() * board.length)
+    drawSquare(number1, number2, "red")
+}
+
 document.addEventListener('keydown', function() {
     if (event.keyCode == 37) {
         snake.moveLeft();
