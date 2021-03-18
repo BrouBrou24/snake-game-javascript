@@ -60,5 +60,5 @@ document.addEventListener('keydown', function() {
     }
 })
 
-let s = new Snake();
-s.draw();
+let snake = new Snake();
+snake.draw();
