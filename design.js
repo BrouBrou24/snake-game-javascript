@@ -30,3 +30,16 @@ function drawBoard() {
 }
 
 drawBoard();
+
+function Snake() {
+    this.x = 7;
+    this.y = 7;
+    this.color = "green";
+}
+
+Snake.prototype.draw = function(x, y) {
+    drawSquare(this.x, this.y, this.color)
+}
+
+let s = new Snake();
+s.draw();
