@@ -58,6 +58,7 @@ document.addEventListener('keydown', function() {
     else if (event.keyCode == 40) {
         snake.moveDown();
     }
+})
 
 let s = new Snake();
 s.draw();
