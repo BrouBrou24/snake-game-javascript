@@ -41,6 +41,10 @@ Snake.prototype.draw = function(x, y) {
     drawSquare(this.x, this.y, this.color)
 }
 
+Snake.prototype.unDraw = function(x, y) {
+    drawSquare(this.x, this.y, EMPTY)
+}
+
 document.addEventListener('keydown', function() {
     if (event.keyCode == 37) {
         snake.moveLeft();
