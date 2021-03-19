@@ -1,8 +1,8 @@
-SQ = 20
-ROW = 15
-COLUMN = COL = 15
-EMPTY = "#FFF"
-FOOD = "red"
+const SQ = 20
+const ROW = 15
+const COLUMN = COL = 15
+const EMPTY = "#FFF"
+const FOOD = "red"
 
 let board = []
 for (r=0; r<ROW; r++) {
@@ -48,36 +48,60 @@ Snake.prototype.unDraw = function(x, y) {
 }
 
 Snake.prototype.moveLeft = function() {
+    if (this.outOfBounds()) {
+            window.stop();
+        }
+    else {
     this.unDraw();
     this.x -= 1;
     this.draw();
+    }
 }
 
 Snake.prototype.moveRight = function() {
+    if (this.outOfBounds()) {
+            window.stop();
+        }
+    else {
     this.unDraw();
     this.x += 1;
     this.draw();
+    }
 }
 
 Snake.prototype.moveUp = function() {
+    if (this.outOfBounds()) {
+            window.stop();
+        }
+    else {
     this.unDraw();
     this.y -= 1;
     this.draw();
+    }
 }
 
 Snake.prototype.moveDown = function() {
+    if (this.outOfBounds()) {
+        window.stop();
+    }
+    else {
     this.unDraw();
     this.y += 1;
     this.draw();
+    }
 }
 
+Snake.prototype.outOfBounds = function() {
+    if (this.x < 1 || this.x > (ROW-2) || this.y < 1 || this.y > (COL-2)) {
+        alert("Game Over");
+    }
+}
 
 function newFood() {
     number1 = Math.floor(Math.random() * board.length)
     number2 = Math.floor(Math.random() * board.length)
     drawSquare(number1, number2, FOOD)
 }
-
 
 document.addEventListener('keydown', function() {
     if (event.keyCode == 37) {
@@ -96,3 +120,4 @@ document.addEventListener('keydown', function() {
 
 let snake = new Snake();
 snake.draw();
+newFood();
