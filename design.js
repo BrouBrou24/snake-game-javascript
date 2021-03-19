@@ -2,6 +2,7 @@ SQ = 20
 ROW = 15
 COLUMN = COL = 15
 EMPTY = "#FFF"
+FOOD = "red"
 
 let board = []
 for (r=0; r<ROW; r++) {
@@ -74,7 +75,7 @@ Snake.prototype.moveDown = function() {
 function newFood() {
     number1 = Math.floor(Math.random() * board.length)
     number2 = Math.floor(Math.random() * board.length)
-    drawSquare(number1, number2, "red")
+    drawSquare(number1, number2, FOOD)
 }
 
 
