@@ -97,6 +97,12 @@ Snake.prototype.outOfBounds = function() {
     }
 }
 
+Snake.prototype.eatFood(x, y) {
+    if (this.x = FOOD || this.y = FOOD) {
+        this.grow();
+    }
+}
+
 function newFood() {
     number1 = Math.floor(Math.random() * board.length)
     number2 = Math.floor(Math.random() * board.length)
