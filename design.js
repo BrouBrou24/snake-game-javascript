@@ -97,8 +97,8 @@ Snake.prototype.outOfBounds = function() {
     }
 }
 
-Snake.prototype.eatFood(x, y) {
-    if (this.x = FOOD || this.y = FOOD) {
+Snake.prototype.eatFood = function(x, y) {
+    if (this.x == FOOD || this.y == FOOD) {
         this.grow();
     }
 }
