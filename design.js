@@ -36,77 +36,111 @@ function Snake() {
     this.x = 7;
     this.y = 7;
     this.color = "green";
+    this.body = [[this.x, this.y]];
     this.size = 1;
+    this.food = newFood();
 }
 
-Snake.prototype.draw = function(x, y) {
-    drawSquare(this.x, this.y, this.color)
+Snake.prototype.moveBody = function(x, y) {
+    this.x = x;
+    this.y = y;
+    this.body.unshift([x, y]);
+    this.draw();
 }
 
-Snake.prototype.unDraw = function(x, y) {
-    drawSquare(this.x, this.y, EMPTY)
+Snake.prototype.draw = function() {
+    for (l=0; l<this.size; l++){
+        drawSquare(this.body[l][0], this.body[l][1], this.color);
+    }
+}
+
+Snake.prototype.unDraw = function() {
+    let lastPosition = this.body[this.body.length-1];
+    drawSquare(lastPosition[0], lastPosition[1], EMPTY);
 }
 
 Snake.prototype.moveLeft = function() {
     if (this.outOfBounds()) {
-            window.stop();
-        }
-    else {
-    this.unDraw();
-    this.x -= 1;
-    this.draw();
+        window.stop();
     }
+    let newX = this.x -= 1;
+    if (this.eatFood(newX, this.y)) {
+        this.size += 1;
+    }
+    else {
+        this.unDraw();
+        this.body.pop();
+    }
+    this.moveBody(newX, this.y)
 }
 
 Snake.prototype.moveRight = function() {
     if (this.outOfBounds()) {
-            window.stop();
-        }
-    else {
-    this.unDraw();
-    this.x += 1;
-    this.draw();
+        window.stop();
     }
+    let newX = this.x += 1;
+    if (this.eatFood(newX, this.y)) {
+        this.size += 1;
+    }
+    else {
+        this.unDraw();
+        this.body.pop();
+    }
+    this.moveBody(newX, this.y)
 }
 
 Snake.prototype.moveUp = function() {
     if (this.outOfBounds()) {
-            window.stop();
-        }
-    else {
-    this.unDraw();
-    this.y -= 1;
-    this.draw();
+        window.stop();
     }
+    newY = this.y -= 1;
+    if (this.eatFood(this.x, newY)) {
+        this.size += 1;
+    }
+    else {
+        this.unDraw();
+        this.body.pop();
+    }
+    this.moveBody(this.x, newY)
 }
 
 Snake.prototype.moveDown = function() {
     if (this.outOfBounds()) {
         window.stop();
     }
-    else {
-    this.unDraw();
-    this.y += 1;
-    this.draw();
+    newY = this.y += 1;
+    if (this.eatFood(this.x, newY)) {
+        this.size += 1;
     }
+    else {
+        this.unDraw();
+        this.body.pop();
+    }
+    this.moveBody(this.x, newY)
 }
 
 Snake.prototype.outOfBounds = function() {
-    if (this.x < 1 || this.x > (ROW-2) || this.y < 1 || this.y > (COL-2)) {
+    if (this.x < 0 || this.x >= ROW || this.y < 0 || this.y >= COL) {
         alert("Game Over");
     }
 }
 
 Snake.prototype.eatFood = function(x, y) {
-    if (this.x == FOOD || this.y == FOOD) {
-        this.grow();
+    if (JSON.stringify([x, y]) == JSON.stringify(this.food)) {
+        this.food = newFood();
+        return true;
+    }
+    else {
+        return false;
     }
 }
 
-function newFood() {
-    number1 = Math.floor(Math.random() * board.length)
-    number2 = Math.floor(Math.random() * board.length)
-    drawSquare(number1, number2, FOOD)
+
+ function newFood() {
+    x = Math.floor(Math.random() * board.length);
+    y = Math.floor(Math.random() * board.length);
+    drawSquare(x, y, FOOD);
+    return [x, y];
 }
 
 document.addEventListener('keydown', function() {
@@ -126,4 +160,3 @@ document.addEventListener('keydown', function() {
 
 let snake = new Snake();
 snake.draw();
-newFood();
