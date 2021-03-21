@@ -186,3 +186,27 @@ document.addEventListener('keydown', function() {
     }
     keepMoving = Date.now();
 })
+
+let gameOver = false;
+
+function sliding() {
+    let now = Date.now();
+    let delta = now - keepMoving;
+    if (delta > 150) {
+        if (snake.lastMove == "left") {
+            snake.moveLeft();
+        } else if (snake.lastMove == "right") {
+            snake.moveRight();
+        } else if (snake.lastMove == "up") {
+            snake.moveUp();
+        } else if (snake.lastMove == "down") {
+            snake.moveDown();
+        }
+        keepMoving = Date.now();
+    }
+    if (!gameOver) {
+        requestAnimationFrame(sliding);
+    }
+}
+
+sliding();
