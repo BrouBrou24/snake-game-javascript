@@ -38,7 +38,7 @@ function Snake() {
     this.color = "green";
     this.body = [[this.x, this.y]];
     this.size = 1;
-    this.lastMove = "right"
+    this.move = "right"
 }
 
 Snake.prototype.moveBody = function(x, y) {
@@ -64,7 +64,6 @@ Snake.prototype.moveLeft = function() {
     if (this.collision(newX, this.y)) {
         window.stop();
     }
-    this.lastMove = "left"
     this.moveBody(newX, this.y)
     if (this.eatFood(newX, this.y)) {
         this.size += 1;
@@ -80,7 +79,6 @@ Snake.prototype.moveRight = function() {
     if (this.collision(newX, this.y)) {
         window.stop();
     }
-    this.lastMove = "right"
     this.moveBody(newX, this.y)
     if (this.eatFood(newX, this.y)) {
         this.size += 1;
@@ -96,7 +94,6 @@ Snake.prototype.moveUp = function() {
     if (this.collision(this.x, newY)) {
         window.stop();
     }
-    this.lastMove = "up"
     this.moveBody(this.x, newY)
     if (this.eatFood(this.x, newY)) {
         this.size += 1;
@@ -112,7 +109,6 @@ Snake.prototype.moveDown = function() {
     if (this.collision(this.x, newY)) {
         window.stop();
     }
-    this.lastMove = "down"
     this.moveBody(this.x, newY)
     if (this.eatFood(this.x, newY)) {
         this.size += 1;
@@ -173,18 +169,17 @@ let keepMoving = Date.now();
 
 document.addEventListener('keydown', function() {
     if (event.keyCode == 37) {
-        snake.moveLeft();
+        snake.move = "left";
     }
     else if (event.keyCode == 38) {
-        snake.moveUp();
+        snake.move = "up";
     }
     else if (event.keyCode == 39) {
-        snake.moveRight();
+        snake.move = "right";
     }
     else if (event.keyCode == 40) {
-        snake.moveDown();
+        snake.move = "down";
     }
-    keepMoving = Date.now();
 })
 
 let gameOver = false;
@@ -193,13 +188,13 @@ function sliding() {
     let now = Date.now();
     let delta = now - keepMoving;
     if (delta > 150) {
-        if (snake.lastMove == "left") {
+        if (snake.move == "left") {
             snake.moveLeft();
-        } else if (snake.lastMove == "right") {
+        } else if (snake.move == "right") {
             snake.moveRight();
-        } else if (snake.lastMove == "up") {
+        } else if (snake.move == "up") {
             snake.moveUp();
-        } else if (snake.lastMove == "down") {
+        } else if (snake.move == "down") {
             snake.moveDown();
         }
         keepMoving = Date.now();
