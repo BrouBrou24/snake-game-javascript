@@ -1,6 +1,6 @@
 const SQ = 20
-const ROW = 15
-const COLUMN = COL = 15
+const ROW = 12
+const COLUMN = COL = 12
 const EMPTY = "#FFF"
 const FOOD = "red"
 
@@ -33,12 +33,12 @@ function drawBoard() {
 drawBoard();
 
 function Snake() {
-    this.x = 7;
-    this.y = 7;
+    this.x = 0;
+    this.y = 5;
     this.color = "green";
     this.body = [[this.x, this.y]];
     this.size = 1;
-    this.food = newFood();
+    this.lastMove = "right"
 }
 
 Snake.prototype.moveBody = function(x, y) {
@@ -60,10 +60,12 @@ Snake.prototype.unDraw = function() {
 }
 
 Snake.prototype.moveLeft = function() {
-    if (this.outOfBounds()) {
+    let newX = this.x -= 1;
+    if (this.collision(newX, this.y)) {
         window.stop();
     }
-    let newX = this.x -= 1;
+    this.lastMove = "left"
+    this.moveBody(newX, this.y)
     if (this.eatFood(newX, this.y)) {
         this.size += 1;
     }
@@ -71,14 +73,15 @@ Snake.prototype.moveLeft = function() {
         this.unDraw();
         this.body.pop();
     }
-    this.moveBody(newX, this.y)
 }
 
 Snake.prototype.moveRight = function() {
-    if (this.outOfBounds()) {
+    let newX = this.x += 1;
+    if (this.collision(newX, this.y)) {
         window.stop();
     }
-    let newX = this.x += 1;
+    this.lastMove = "right"
+    this.moveBody(newX, this.y)
     if (this.eatFood(newX, this.y)) {
         this.size += 1;
     }
@@ -86,14 +89,15 @@ Snake.prototype.moveRight = function() {
         this.unDraw();
         this.body.pop();
     }
-    this.moveBody(newX, this.y)
 }
 
 Snake.prototype.moveUp = function() {
-    if (this.outOfBounds()) {
+    newY = this.y -= 1;
+    if (this.collision(this.x, newY)) {
         window.stop();
     }
-    newY = this.y -= 1;
+    this.lastMove = "up"
+    this.moveBody(this.x, newY)
     if (this.eatFood(this.x, newY)) {
         this.size += 1;
     }
@@ -101,14 +105,15 @@ Snake.prototype.moveUp = function() {
         this.unDraw();
         this.body.pop();
     }
-    this.moveBody(this.x, newY)
 }
 
 Snake.prototype.moveDown = function() {
-    if (this.outOfBounds()) {
+    newY = this.y += 1;
+    if (this.collision(this.x, newY)) {
         window.stop();
     }
-    newY = this.y += 1;
+    this.lastMove = "down"
+    this.moveBody(this.x, newY)
     if (this.eatFood(this.x, newY)) {
         this.size += 1;
     }
@@ -116,18 +121,24 @@ Snake.prototype.moveDown = function() {
         this.unDraw();
         this.body.pop();
     }
-    this.moveBody(this.x, newY)
 }
 
-Snake.prototype.outOfBounds = function() {
+Snake.prototype.collision = function(newX, newY) {
     if (this.x < 0 || this.x >= ROW || this.y < 0 || this.y >= COL) {
         alert("Game Over");
+        gameOver = true;
+    }
+    for (p=0; p<this.body.length; p++) {
+        if (this.body[p] == this.body[newX, newY]) {
+            alert("Game Over");
+            gameOver = true;
+        }
     }
 }
 
 Snake.prototype.eatFood = function(x, y) {
-    if (JSON.stringify([x, y]) == JSON.stringify(this.food)) {
-        this.food = newFood();
+    if (JSON.stringify([x, y]) == JSON.stringify(food)) {
+        food = newFood();
         return true;
     }
     else {
@@ -135,13 +146,30 @@ Snake.prototype.eatFood = function(x, y) {
     }
 }
 
+let snake = new Snake();
+snake.draw();
+let food = newFood();
 
- function newFood() {
-    x = Math.floor(Math.random() * board.length);
-    y = Math.floor(Math.random() * board.length);
-    drawSquare(x, y, FOOD);
-    return [x, y];
+
+function newFood() {
+    let freeSquares = []
+    for (r=0; r<ROW; r++) {
+        for (c=0; c<COL; c++) {
+            let newCoord = [r, c]
+            freeSquares.push(newCoord);
+            for (i=0; i<snake.body.length; i++) {
+                if (JSON.stringify(newCoord) == JSON.stringify(snake.body[i])) {
+                    freeSquares.pop(newCoord);
+                }
+            }
+        }
+    }
+    let randomN = Math.floor(Math.random() * freeSquares.length);
+    drawSquare(freeSquares[randomN][0], freeSquares[randomN][1], FOOD);
+    return freeSquares[randomN];
 }
+
+let keepMoving = Date.now();
 
 document.addEventListener('keydown', function() {
     if (event.keyCode == 37) {
@@ -156,7 +184,5 @@ document.addEventListener('keydown', function() {
     else if (event.keyCode == 40) {
         snake.moveDown();
     }
+    keepMoving = Date.now();
 })
-
-let snake = new Snake();
-snake.draw();
