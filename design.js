@@ -1,4 +1,4 @@
-const SQ = 20
+const SQ = 30
 const ROW = 12
 const COLUMN = COL = 12
 const EMPTY = "#FFF"
