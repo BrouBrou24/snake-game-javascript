@@ -41,10 +41,13 @@ function Snake() {
     this.move = "right"
 }
 
+let colBody = [
+]
 Snake.prototype.moveBody = function(x, y) {
     this.x = x;
     this.y = y;
     this.body.unshift([x, y]);
+    colBody.unshift([x, y]);
     this.draw();
 }
 
@@ -61,9 +64,6 @@ Snake.prototype.unDraw = function() {
 
 Snake.prototype.moveLeft = function() {
     let newX = this.x -= 1;
-    if (this.outOfBounds) {
-        window.stop();
-    }
     if (this.collision(newX, this.y)) {
         window.stop();
     }
@@ -73,15 +73,13 @@ Snake.prototype.moveLeft = function() {
     }
     else {
         this.unDraw();
+        colBody.pop();
         this.body.pop();
     }
 }
 
 Snake.prototype.moveRight = function() {
     let newX = this.x += 1;
-    if (this.outOfBounds) {
-        window.stop();
-    }
     if (this.collision(newX, this.y)) {
         window.stop();
     }
@@ -91,15 +89,13 @@ Snake.prototype.moveRight = function() {
     }
     else {
         this.unDraw();
+        colBody.pop();
         this.body.pop();
     }
 }
 
 Snake.prototype.moveUp = function() {
     newY = this.y -= 1;
-    if (this.outOfBounds) {
-        window.stop();
-    }
     if (this.collision(this.x, newY)) {
         window.stop();
     }
@@ -109,15 +105,13 @@ Snake.prototype.moveUp = function() {
     }
     else {
         this.unDraw();
+        colBody.pop();
         this.body.pop();
     }
 }
 
 Snake.prototype.moveDown = function() {
     newY = this.y += 1;
-    if (this.outOfBounds) {
-        window.stop();
-    }
     if (this.collision(this.x, newY)) {
         window.stop();
     }
@@ -127,23 +121,23 @@ Snake.prototype.moveDown = function() {
     }
     else {
         this.unDraw();
+        colBody.pop();
         this.body.pop();
     }
 }
 
 Snake.prototype.collision = function(newX, newY) {
-    for (p=0; p<this.body.length; p++) {
-        if (this.body[p] == this.body[newX, newY]) {
+    if (this.x < 0 || this.x >= COL|| this.y < 0 || this.y >= ROW) {
+        alert("Game Over");
+        gameOver = true;
+        return true;
+    }
+    for (p=0; p<colBody.length; p++) {
+        if (JSON.stringify(colBody[p]) == JSON.stringify([newX, newY])) {
             alert("Game Over");
             gameOver = true;
-        }
-    }
-}
-
-Snake.prototype.outOfBounds = function() {
-        if (this.x < 0 || this.x >= ROW || this.y < 0 || this.y >= COL) {
-            alert("Game Over");
             return true;
+        }
     }
 }
 
