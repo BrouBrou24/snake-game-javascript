@@ -61,6 +61,9 @@ Snake.prototype.unDraw = function() {
 
 Snake.prototype.moveLeft = function() {
     let newX = this.x -= 1;
+    if (this.outOfBounds) {
+        window.stop();
+    }
     if (this.collision(newX, this.y)) {
         window.stop();
     }
@@ -76,6 +79,9 @@ Snake.prototype.moveLeft = function() {
 
 Snake.prototype.moveRight = function() {
     let newX = this.x += 1;
+    if (this.outOfBounds) {
+        window.stop();
+    }
     if (this.collision(newX, this.y)) {
         window.stop();
     }
@@ -91,6 +97,9 @@ Snake.prototype.moveRight = function() {
 
 Snake.prototype.moveUp = function() {
     newY = this.y -= 1;
+    if (this.outOfBounds) {
+        window.stop();
+    }
     if (this.collision(this.x, newY)) {
         window.stop();
     }
@@ -106,6 +115,9 @@ Snake.prototype.moveUp = function() {
 
 Snake.prototype.moveDown = function() {
     newY = this.y += 1;
+    if (this.outOfBounds) {
+        window.stop();
+    }
     if (this.collision(this.x, newY)) {
         window.stop();
     }
@@ -120,15 +132,18 @@ Snake.prototype.moveDown = function() {
 }
 
 Snake.prototype.collision = function(newX, newY) {
-    if (this.x < 0 || this.x >= ROW || this.y < 0 || this.y >= COL) {
-        alert("Game Over");
-        gameOver = true;
-    }
     for (p=0; p<this.body.length; p++) {
         if (this.body[p] == this.body[newX, newY]) {
             alert("Game Over");
             gameOver = true;
         }
+    }
+}
+
+Snake.prototype.outOfBounds = function() {
+        if (this.x < 0 || this.x >= ROW || this.y < 0 || this.y >= COL) {
+        alert("Game Over");
+        gameOver = true;
     }
 }
 
