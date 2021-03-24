@@ -141,9 +141,15 @@ Snake.prototype.collision = function(newX, newY) {
     }
 }
 
+totalScore = document.getElementById("score")
+let score = 0
+totalScore.innerHTML = score;
+
 Snake.prototype.eatFood = function(x, y) {
     if (JSON.stringify([x, y]) == JSON.stringify(food)) {
         food = newFood();
+        score += 10;
+        totalScore.innerHTML = score;
         return true;
     }
     else {
