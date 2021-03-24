@@ -142,8 +142,8 @@ Snake.prototype.collision = function(newX, newY) {
 
 Snake.prototype.outOfBounds = function() {
         if (this.x < 0 || this.x >= ROW || this.y < 0 || this.y >= COL) {
-        alert("Game Over");
-        gameOver = true;
+            alert("Game Over");
+            return true;
     }
 }
 
