@@ -6,3 +6,11 @@
     font-weight: bold;
     font-size: 25px;
 }
+
+#signature {
+    font-weight: normal;
+    font-style: italic;
+    font-size: 18px;
+    float: right;
+    margin-right: 10px;
+}
